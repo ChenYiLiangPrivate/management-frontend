@@ -16,6 +16,8 @@
         :max-collapse-tags="3"
         style="width: 300px; margin-right: 15px"
         class="cascader-custom"
+        filterable
+        :filter-method="filterEnterprise"
       />
 
      <!-- 添加查询按钮 -->
@@ -70,6 +72,12 @@ const cascaderProps = {
   checkStrictly: true,
   emitPath: false,  // 新增：确保返回ID数组而非路径数组
   multiple: true
+};
+
+// 添加企业名称模糊匹配过滤方法
+const filterEnterprise = (value, data) => {
+  if (!value) return true;
+  return data.name.toLowerCase().includes(value.toLowerCase());
 };
 
 // 示例企业数据
