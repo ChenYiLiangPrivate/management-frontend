@@ -291,11 +291,12 @@ onMounted(() => {
 }
 
 .enterprise-management {
-  max-width: 1200px;
+  width: 1200px; /* 固定宽度为1200px */
   margin: 0 auto;
   padding: 20px;
-  background-color: #f5f7fa; /* 添加浅灰色背景 */
+  background-color: white; /* 恢复为白色背景 */
   min-height: 100vh;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05); /* 保留轻微阴影增强层次感 */
 }
 
 .header {
