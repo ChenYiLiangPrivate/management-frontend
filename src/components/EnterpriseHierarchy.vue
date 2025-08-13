@@ -13,26 +13,13 @@
         placeholder="选择企业"
         multiple
         collapse-tags
-        
+        :max-collapse-tags="3"
         style="width: 300px; margin-right: 15px"
       />
 
       <!-- 添加查询按钮 -->
       <ElButton type="primary" @click="handleQuery" style="margin-right: 15px">查询</ElButton>
       <ElButton type="primary" @click="resetSelection">重置选择</ElButton>
-    </div>
-
-    <!-- 新增：已选择企业标签列表 -->
-    <div class="selected-enterprises" v-if="selectedEnterprises.length > 0">
-      <ElTag
-        v-for="enterprise in selectedEnterprises"
-        :key="enterprise.id"
-        closable
-        @close="handleTagClose(enterprise.id)"
-        style="margin: 5px"
-      >
-        {{ enterprise.name }}
-      </ElTag>
     </div>
 
     <!-- 修改为企业详情列表 -->
@@ -72,7 +59,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { ElCascader, ElButton, ElTable, ElTableColumn, ElPagination, ElEmpty, ElMessage, ElTag } from 'element-plus';
+import { ElButton, ElTable, ElTableColumn, ElPagination, ElEmpty, ElMessage, ElTag } from 'element-plus';
 
 // 级联选择器配置
 const cascaderProps = {
@@ -236,13 +223,6 @@ const loadEnterpriseTree = () => {
 const handleTagClose = (id) => {
   selectedEnterpriseIds.value = selectedEnterpriseIds.value.filter(itemId => itemId !== id);
 };
-
-// 新增：计算属性 - 添加数组类型检查
-const selectedEnterprises = computed(() => {
-  return selectedEnterpriseIds.value.map(id => {
-    return enterpriseData.find(item => item.id === Number(id));
-  }).filter(Boolean);
-});
 
 // 新增：处理分页大小变化
 const handleSizeChange = (val) => {
