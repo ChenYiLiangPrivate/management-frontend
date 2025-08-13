@@ -76,8 +76,23 @@ const cascaderProps = {
 
 // 添加企业名称模糊匹配过滤方法
 const filterEnterprise = (value, data) => {
+  // 检查数据是否存在
+  if (!data || !data.name) return false;
+
+  // 如果没有搜索关键词，显示所有节点
   if (!value) return true;
-  return data.name.toLowerCase().includes(value.toLowerCase());
+
+  // 将搜索关键词转换为小写
+  const keyword = value.toLowerCase();
+  // 检查当前节点名称是否包含关键词
+  const currentNodeMatch = data.name.toLowerCase().includes(keyword);
+
+  // 如果当前节点不匹配，检查是否有子节点并递归搜索
+  if (!currentNodeMatch && data.children && data.children.length > 0) {
+    return data.children.some(child => filterEnterprise(value, child));
+  }
+
+  return currentNodeMatch;
 };
 
 // 示例企业数据
