@@ -4,7 +4,7 @@
       <h1>企业信息管理</h1>
     </div>
 
-    <div class="search-area">
+    <div class="search-area card">
       <!-- 级联选择器 -->
       <ElCascader
         v-model="selectedEnterpriseIds"
@@ -15,17 +15,18 @@
         collapse-tags
         :max-collapse-tags="3"
         style="width: 300px; margin-right: 15px"
+        class="cascader-custom"
       />
 
-      <!-- 添加查询按钮 -->
-      <ElButton type="primary" @click="handleQuery" style="margin-right: 15px">查询</ElButton>
-      <ElButton type="primary" @click="resetSelection">重置选择</ElButton>
+     <!-- 添加查询按钮 -->
+      <ElButton type="primary" @click="handleQuery" style="margin-right: 15px" class="btn-primary">查询</ElButton>
+      <ElButton @click="resetSelection" class="btn-secondary">重置选择</ElButton>
     </div>
 
-    <!-- 修改为企业详情列表 -->
-    <div class="enterprise-detail" v-if="currentEnterprises.length > 0">
+    <!-- 企业详情列表 -->
+    <div class="enterprise-detail card" v-if="currentEnterprises.length > 0">
       <h2>企业详情列表</h2>
-      <ElTable :data="pagedEnterprises" border style="width: 100%">
+      <ElTable :data="pagedEnterprises" border style="width: 100%" class="custom-table">
         <ElTableColumn prop="id" label="企业ID" width="100"></ElTableColumn>
         <ElTableColumn prop="name" label="企业名称"></ElTableColumn>
         <ElTableColumn prop="parentName" label="上级企业">
@@ -270,15 +271,57 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* 基础颜色变量定义 */
+:root {
+  --primary-color: #165DFF;
+  --primary-light: #E8F3FF;
+  --secondary-color: #6B7280;
+  --success-color: #00B42A;
+  --warning-color: #FF7D00;
+  --danger-color: #F53F3F;
+  --light-bg: #F2F3F5;
+  --white: #FFFFFF;
+  --text-primary: #1D2129;
+  --text-secondary: #4E5969;
+  --text-tertiary: #86909C;
+  --border-color: #E5E6EB;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --radius: 8px;
+}
+
 .enterprise-management {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  background-color: #FAFAFA;
+  min-height: 100vh;
 }
 
 .header {
   margin-bottom: 30px;
   text-align: center;
+  padding: 20px 0;
+}
+
+.header h1 {
+  color: var(--text-primary);
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* 卡片样式 */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow);
 }
 
 .search-area {
@@ -287,40 +330,91 @@ onMounted(() => {
   align-items: center;
 }
 
+/* 自定义级联选择器样式 */
+.cascader-custom .el-cascader__tags {
+  flex-wrap: wrap;
+  padding: 4px 8px;
+}
+
+/* 按钮样式优化 */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0E4CD3;
+  border-color: #0E4CD3;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: var(--white);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--light-bg);
+  transform: translateY(-1px);
+}
+
 .enterprise-detail {
   margin-bottom: 30px;
 }
 
-.detail-row {
-  margin-bottom: 15px;
-  display: flex;
+.enterprise-detail h2 {
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.label {
-  font-weight: bold;
-  width: 120px;
-  text-align: right;
-  margin-right: 15px;
+/* 表格样式优化 */
+.custom-table .el-table__header th {
+  background-color: var(--light-bg);
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
-.value {
-  flex: 1;
+.custom-table .el-table__body tr:hover > td {
+  background-color: var(--primary-light) !important;
 }
 
+.custom-table .el-table__body tr {
+  transition: background-color 0.2s ease;
+}
+
+/* 分页样式 */
 .pagination {
   margin-top: 20px;
   text-align: right;
 }
 
-.no-data {
-  margin: 40px 0;
-  text-align: center;
+/* 标签样式优化 */
+.selected-enterprises .el-tag {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-color: transparent;
+  transition: all 0.2s ease;
 }
 
-/* 新增分页样式 */
-.pagination {
-  margin-top: 20px;
-  text-align: right;
+.selected-enterprises .el-tag:hover {
+  background-color: #CCE0FF;
+  transform: translateY(-1px);
+}
+
+.selected-enterprises .el-tag .el-tag__close {
+  color: var(--primary-color);
+  opacity: 0.7;
+}
+
+.selected-enterprises .el-tag .el-tag__close:hover {
+  opacity: 1;
 }
 
 .no-selection {
@@ -328,10 +422,23 @@ onMounted(() => {
   text-align: center;
 }
 
-/* 新增：已选择企业标签列表样式 */
-.selected-enterprises {
-  margin: 15px 0;
-  display: flex;
-  flex-wrap: wrap;
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .search-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-area .el-cascader {
+    width: 100% !important;
+    margin-right: 0 !important;
+    margin-bottom: 10px;
+  }
+
+  .search-area .el-button {
+    width: 100%;
+    margin-right: 0 !important;
+    margin-bottom: 10px;
+  }
 }
 </style>
