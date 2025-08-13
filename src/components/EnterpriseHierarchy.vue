@@ -294,14 +294,13 @@ onMounted(() => {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #FAFAFA;
+  background-color: #f5f7fa; /* 添加浅灰色背景 */
   min-height: 100vh;
 }
 
 .header {
   margin-bottom: 30px;
   text-align: center;
-  padding: 20px 0;
 }
 
 .header h1 {
@@ -328,6 +327,14 @@ onMounted(() => {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+}
+
+/* 添加查询按钮样式 */
+.search-area .el-button--primary {
+  background-color: #409EFF; /* 恢复Element默认primary蓝色 */
+  color: white; /* 确保文字为白色 */
+  opacity: 1; /* 确保按钮不透明 */
+  border: none; /* 移除边框 */
 }
 
 /* 自定义级联选择器样式 */
